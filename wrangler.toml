@@ -2,6 +2,23 @@ name = "reverse-cyritex"
 main = "src/worker.js"
 compatibility_date = "2024-01-01"
 
+# ----------------------------------------------------------------------
+# Target upstream configuration
+# ----------------------------------------------------------------------
+# These defaults are used when the corresponding env vars are not set in
+# the Cloudflare dashboard. Override them per-environment with:
+#
+#   wrangler secret put TARGET_HOSTNAME
+#   wrangler secret put TARGET_PROTOCOL
+#
+# or by editing the Worker's environment variables in the Cloudflare
+# dashboard under Workers & Pages -> reverse-cyritex -> Settings ->
+# Variables and Secrets.
+# ----------------------------------------------------------------------
+[vars]
+TARGET_HOSTNAME = "100180.secvision.cloud"
+TARGET_PROTOCOL = "https:"
+
 [observability]
 [observability.logs]
 enabled = true
