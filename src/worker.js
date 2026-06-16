@@ -3,9 +3,14 @@ export default {
     // 1. Parse the incoming request URL from your VPS
     const url = new URL(request.url);
 
-    // 2. Change the destination to the target server
-    url.hostname = "100180.secvision.cloud";
-    url.protocol = "https:";
+    // 2. Change the destination to the target server.
+    // Both values are configurable via environment variables (see wrangler.toml
+    // or the Cloudflare dashboard). They fall back to a sensible default so
+    // existing deployments keep working if the vars are not set.
+    const targetHostname = env.TARGET_HOSTNAME || "100180.secvision.cloud";
+    const targetProtocol = env.TARGET_PROTOCOL || "https:";
+    url.hostname = targetHostname;
+    url.protocol = targetProtocol;
 
     // 3. Create a new request based on the original
     // This automatically copies the POST body, method, and original headers
@@ -14,7 +19,7 @@ export default {
     // 4. CRITICAL FIX: Overwrite the Host header!
     // Many servers return a 500 error if the Host header says "your-worker.workers.dev"
     // instead of their actual domain name.
-    proxyRequest.headers.set("Host", "100180.secvision.cloud");
+    proxyRequest.headers.set("Host", targetHostname);
 
     // Optional: Pass the real IP of your VPS to the target server
     const realIp = request.headers.get("cf-connecting-ip");

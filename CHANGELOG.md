@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.1.0] - 2026-06-16
+
+### Added
+- `TARGET_HOSTNAME` and `TARGET_PROTOCOL` environment variables for configuring the upstream at runtime
+- `[vars]` block in `wrangler.toml` with sensible defaults (`100180.secvision.cloud`, `https:`) for backward compatibility
+- Fallback to the hardcoded defaults when the new env vars are not set, so existing deployments keep working without configuration changes
+- "Configuration" section in `README.md` documenting both env vars, including how to set them via `wrangler.toml`, the Cloudflare dashboard, `wrangler secret put`, and `.dev.vars` for local development
+- "Pointing your client at the Worker" section in `README.md` explaining how to reach the deployed Worker
+
+### Changed
+- `README.md` rewritten to be generic and usable by anyone. The previous copy was specific to "Japan‑based Oracle Cloud VPS → `100180.secvision.cloud`"; the new copy describes the Worker as a generic transparent HTTPS reverse proxy for any server whose outbound connectivity to a target host is impaired (including, but not limited to, the GFW and any other national / corporate firewall). The `100180.secvision.cloud` example is preserved as a concrete reference but is no longer the only supported use case.
+- `src/worker.js` now reads the target hostname and protocol from `env` instead of using hardcoded string literals
+
+---
+
 ## [1.0.0] - 2026-05-13
 
 ### Added
