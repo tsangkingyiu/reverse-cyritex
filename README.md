@@ -9,7 +9,7 @@ Direct HTTPS connections from the Japan VPS to the China target server were fail
 ## Architecture
 
 ```
-JP-VPS (Oracle Cloud)
+VPS (Oracle Cloud)
     └──> HTTPS ──> Cloudflare Worker (reverse-cyritex)
                         └──> HTTPS ──> 100180.secvision.cloud (China)
 ```
