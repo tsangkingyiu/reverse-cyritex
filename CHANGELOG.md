@@ -22,6 +22,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `src/worker.js` now reads the target hostname and protocol from `env` instead of using hardcoded string literals
 - `README.md` **Deployment** and **Local Development** sections now use the `npm install` / `npm run dev` / `npm run deploy` workflow (driven by `package.json`) instead of bare `npx wrangler …` commands
 
+### Fixed
+- Restored the no-op `"build": "echo 'No build step required'"` script in `package.json`. The previous `package.json` cleanup accidentally removed it, which made Cloudflare's Git integration fail with `Missing script: "build"`. Workers don't need a real build, but the script must exist as a sentinel.
+
 ---
 
 ## [1.0.0] - 2026-05-13
