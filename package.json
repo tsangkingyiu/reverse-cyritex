@@ -1,11 +1,19 @@
 {
   "name": "reverse-cyritex",
-  "version": "1.0.0",
-  "description": "Cloudflare Worker HTTPS reverse proxy for routing JP VPS traffic to China target server",
+  "version": "1.1.0",
+  "description": "Cloudflare Worker that acts as a transparent HTTPS reverse proxy, forwarding requests from any server in a restricted region to a configurable upstream host through Cloudflare's edge network.",
   "main": "src/worker.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsangkingyiu/reverse-cyritex.git"
+  },
+  "homepage": "https://github.com/tsangkingyiu/reverse-cyritex#readme",
+  "bugs": {
+    "url": "https://github.com/tsangkingyiu/reverse-cyritex/issues"
+  },
   "scripts": {
     "dev": "wrangler dev",
-    "build": "echo 'No build step required'",
     "deploy": "wrangler deploy"
   },
   "devDependencies": {

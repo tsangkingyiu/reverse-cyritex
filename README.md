@@ -111,37 +111,26 @@ git commit -m "your message"
 git push origin main
 ```
 
-You can also deploy manually with the Wrangler CLI. There is no `package.json`
-in this repo — Cloudflare Workers only need `wrangler.toml` and the source
-files. If you don't already have wrangler installed, `npx` will fetch a
-temporary copy automatically:
+You can also deploy manually with the Wrangler CLI:
 
 ```bash
-npx wrangler deploy
+npm install
+npm run deploy
 ```
 
-Or install wrangler globally for repeated use:
-
-```bash
-npm install -g wrangler
-wrangler deploy
-```
+(`npm run deploy` is just a thin wrapper around `wrangler deploy` — see
+`package.json`.)
 
 ## Local Development
 
-There is no `package.json` in this repo — Cloudflare Workers only need
-`wrangler.toml` and the source files. Run wrangler directly with `npx`:
+Install dependencies and start the local dev server:
 
 ```bash
-npx wrangler dev
+npm install
+npm run dev
 ```
 
-Or install wrangler globally for repeated use:
-
-```bash
-npm install -g wrangler
-wrangler dev
-```
+(`npm run dev` is a thin wrapper around `wrangler dev` — see `package.json`.)
 
 To use a different upstream locally, either edit the `[vars]` block in
 `wrangler.toml` or create a `.dev.vars` file in the project root:
