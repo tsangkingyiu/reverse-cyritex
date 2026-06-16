@@ -111,18 +111,36 @@ git commit -m "your message"
 git push origin main
 ```
 
-You can also deploy manually with the Wrangler CLI:
+You can also deploy manually with the Wrangler CLI. There is no `package.json`
+in this repo — Cloudflare Workers only need `wrangler.toml` and the source
+files. If you don't already have wrangler installed, `npx` will fetch a
+temporary copy automatically:
 
 ```bash
-npm install
 npx wrangler deploy
+```
+
+Or install wrangler globally for repeated use:
+
+```bash
+npm install -g wrangler
+wrangler deploy
 ```
 
 ## Local Development
 
+There is no `package.json` in this repo — Cloudflare Workers only need
+`wrangler.toml` and the source files. Run wrangler directly with `npx`:
+
 ```bash
-npm install
 npx wrangler dev
+```
+
+Or install wrangler globally for repeated use:
+
+```bash
+npm install -g wrangler
+wrangler dev
 ```
 
 To use a different upstream locally, either edit the `[vars]` block in
@@ -148,6 +166,4 @@ Once deployed, the Worker is reachable at:
 Direct your client / VPS to that URL instead of the original target host. The
 path, query string, method, headers, and body are forwarded as‑is.
 
-## License
-
-MIT — do whatever you want with it.
+See [`LICENSE`](LICENSE) for the full MIT license text.
