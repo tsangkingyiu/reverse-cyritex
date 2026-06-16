@@ -58,25 +58,24 @@ usually has a much better path.
 
 ## Configuration
 
-The Worker reads two environment variables:
+The Worker reads a single environment variable, `TARGET_URL`, which is the
+full upstream URL the Worker should proxy to.
 
-| Variable          | Required | Default                    | Description                                                                 |
-| ----------------- | -------- | -------------------------- | --------------------------------------------------------------------------- |
-| `TARGET_HOSTNAME` | No       | `100180.secvision.cloud`   | The upstream host the Worker will proxy requests to.                       |
-| `TARGET_PROTOCOL` | No       | `https:`                    | Protocol used when talking to the upstream. Use `https:` (default) or `http:`. |
+| Variable      | Required | Default                                | Description                                                                 |
+| ------------- | -------- | -------------------------------------- | --------------------------------------------------------------------------- |
+| `TARGET_URL`  | No       | `https://100180.secvision.cloud`       | The upstream URL. Accepts `https://...` (default) or `http://...`, and an optional port / path (e.g. `http://example.com:8080/api`). |
 
-If a variable is not set, the default from the table above is used, so the
+If `TARGET_URL` is not set, the default from the table above is used, so the
 Worker keeps working after an upgrade without any config changes.
 
 ### Set via `wrangler.toml` (committed defaults)
 
 ```toml
 [vars]
-TARGET_HOSTNAME = "100180.secvision.cloud"
-TARGET_PROTOCOL = "https:"
+TARGET_URL = "https://100180.secvision.cloud"
 ```
 
-This is the approach used in this repository. The values are committed to git
+This is the approach used in this repository. The value is committed to git
 and visible to anyone with read access to the repo, so only use it for
 non‑sensitive hosts.
 
@@ -84,8 +83,8 @@ non‑sensitive hosts.
 
 1. Open the Cloudflare dashboard → **Workers & Pages** → `reverse-cyritex`.
 2. Go to **Settings** → **Variables and Secrets**.
-3. Add `TARGET_HOSTNAME` and/or `TARGET_PROTOCOL` as **Type: Variable** (or
-   **Secret** if you prefer them to be hidden).
+3. Add `TARGET_URL` as **Type: Variable** (or **Secret** if you prefer it to
+   be hidden).
 
 Dashboard values take precedence over the `[vars]` block in `wrangler.toml`.
 
@@ -93,12 +92,11 @@ Dashboard values take precedence over the `[vars]` block in `wrangler.toml`.
 
 ```bash
 # Interactive prompts for the value
-wrangler secret put TARGET_HOSTNAME
-wrangler secret put TARGET_PROTOCOL
+wrangler secret put TARGET_URL
 ```
 
 `wrangler secret put` stores the value as an encrypted secret. Use it if your
-upstream hostname is something you don't want in version control.
+upstream URL is something you don't want in version control.
 
 ## Deployment
 
@@ -137,8 +135,7 @@ To use a different upstream locally, either edit the `[vars]` block in
 
 ```bash
 # .dev.vars (gitignored, local-only secrets)
-TARGET_HOSTNAME=example.com
-TARGET_PROTOCOL=https:
+TARGET_URL=https://example.com
 ```
 
 `wrangler dev` automatically loads `.dev.vars` and exposes the values on

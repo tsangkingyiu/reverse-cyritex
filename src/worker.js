@@ -4,13 +4,13 @@ export default {
     const url = new URL(request.url);
 
     // 2. Change the destination to the target server.
-    // Both values are configurable via environment variables (see wrangler.toml
-    // or the Cloudflare dashboard). They fall back to a sensible default so
-    // existing deployments keep working if the vars are not set.
-    const targetHostname = env.TARGET_HOSTNAME || "100180.secvision.cloud";
-    const targetProtocol = env.TARGET_PROTOCOL || "https:";
-    url.hostname = targetHostname;
-    url.protocol = targetProtocol;
+    // The upstream is configured via a single env var: TARGET_URL
+    // (e.g. "https://100180.secvision.cloud" or "http://example.com:8080").
+    // It falls back to a sensible default so existing deployments keep working
+    // if the var is not set.
+    const target = new URL(env.TARGET_URL || "https://100180.secvision.cloud");
+    url.hostname = target.hostname;
+    url.protocol = target.protocol;
 
     // 3. Create a new request based on the original
     // This automatically copies the POST body, method, and original headers
@@ -19,7 +19,7 @@ export default {
     // 4. CRITICAL FIX: Overwrite the Host header!
     // Many servers return a 500 error if the Host header says "your-worker.workers.dev"
     // instead of their actual domain name.
-    proxyRequest.headers.set("Host", targetHostname);
+    proxyRequest.headers.set("Host", target.hostname);
 
     // Optional: Pass the real IP of your VPS to the target server
     const realIp = request.headers.get("cf-connecting-ip");
