@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.1.1] - 2026-06-16
+
+### Changed
+- Replaced the `TARGET_HOSTNAME` + `TARGET_PROTOCOL` environment variables with a single `TARGET_URL` (e.g. `https://100180.secvision.cloud` or `http://example.com:8080/path`). The new value is a real URL, which removes the awkward `https:` standalone protocol value and naturally supports a custom port or path if needed.
+- `src/worker.js` now parses the env value with the `URL` constructor and derives `hostname` and `protocol` from it. The `Host` header is also set from the parsed `hostname`.
+- `wrangler.toml` `[vars]` block, the `README.md` Configuration section, and the `wrangler secret put` / `.dev.vars` examples all updated to use `TARGET_URL`.
+
+---
+
 ## [1.1.0] - 2026-06-16
 
 ### Added
